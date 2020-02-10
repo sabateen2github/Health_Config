@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
+import java.util.concurrent.Executors;
 
 /**
  * @author Stuart Douglas
@@ -54,7 +55,7 @@ public class ServletServer {
             DeploymentInfo servletBuilder = deployment()
                     .setClassLoader(ServletServer.class.getClassLoader())
                     .setContextPath(MYAPP)
-                    .setDeploymentName("test.war")
+                    .setDeploymentName("test.war").setAsyncExecutor(Executors.newSingleThreadExecutor())
                     .addServlets(
                             servlet("MessageServlet", MessageServlet.class)
                                     .addInitParam("message", "Hello World")
