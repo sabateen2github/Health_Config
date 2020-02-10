@@ -18,6 +18,7 @@
 
 package org.openshift.quickstarts.undertow.servlet;
 
+import com.alaa.server.PathsMine;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -48,6 +49,8 @@ public class ServletServer {
     public static void main(final String[] args) {
         try {
 
+            PathsMine.init();
+
             DeploymentInfo servletBuilder = deployment()
                     .setClassLoader(ServletServer.class.getClassLoader())
                     .setContextPath(MYAPP)
@@ -55,10 +58,7 @@ public class ServletServer {
                     .addServlets(
                             servlet("MessageServlet", MessageServlet.class)
                                     .addInitParam("message", "Hello World")
-                                    .addMapping("/*"),
-                            servlet("MyServlet", MessageServlet.class)
-                                    .addInitParam("message", "MyServlet")
-                                    .addMapping("/myservlet"));
+                                    .addMapping("/*"));
 
             DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
             manager.deploy();
